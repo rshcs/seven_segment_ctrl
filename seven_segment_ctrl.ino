@@ -3,7 +3,8 @@
 int8_t a = 1;
 int8_t b = 1;
 
-int8_t segment_num = 0;
+int8_t seg_a[3] = { 2, 1 };
+
 uint8_t nums[11] = { 0x6F, 0x48, 0x3E, 0x5E, 0x59, 0x57, 0x77, 0x4C, 0x7F, 0x5F };
 
 void setup()
@@ -22,58 +23,11 @@ void setup()
 
 void loop()
 {
-	segment_b(15);
+	//segment_b(15);
 	//Serial.println(numbers(0), HEX);
-	/*
-	segment_out(nums[7]);
-	segment_ctrl(1);
-	delay(5);
-
-	segment_out(nums[8]);
-	segment_ctrl(2);
-	delay(5);
-	*/
-	/*
-	segment_out(0x48);
-	segment_ctrl(1);
-	delay(1000);
-
-	segment_out(0x3E);
-	segment_ctrl(2);
-	delay(1000);
-
-	segment_out(0x5E);
-	segment_ctrl(4);
-	delay(1000);
-
-	segment_out(0x59);
-	segment_ctrl(8);
-	delay(1000);
-
-	segment_out(0x57);
-	segment_ctrl(16);
-	delay(1000);
-
-	segment_out(0x77);
-	segment_ctrl(32);
-	delay(1000);
-
-	segment_out(0x4C);
-	segment_ctrl(1);
-	delay(1000);
-
-	segment_out(0x7F);
-	segment_ctrl(2);
-	delay(1000);
-
-	segment_out(0x5F);
-	segment_ctrl(4);
-	delay(1000);
-
-	segment_out(0x6F);
-	segment_ctrl(8);
-	delay(1000);
-	*/
+	segment_on(&seg_a[0], 87);
+	//delay(1000);
+	
 }
 
 void segment_out(uint8_t inVal)
@@ -128,4 +82,35 @@ void segment_b(uint8_t in_val)
 		segment_ctrl(1);
 		delay(SEG_DELAY);
 	}
+}
+
+void segment_on(int8_t* in_addr, int in_val)
+{
+	
+	Serial.print(*in_addr);
+	Serial.print("|");
+	Serial.println(*(in_addr + 1));
+	
+	
+	if (in_val > 99)
+	{
+		segment_out(nums[9]);
+		segment_ctrl(*in_addr);
+		delay(5);
+
+		segment_out(nums[9]);
+		segment_ctrl(*in_addr + 1);
+		delay(5);
+	}
+	else
+	{
+		segment_out(nums[in_val / 10]);
+		segment_ctrl(*in_addr);
+		delay(5);
+
+		segment_out(nums[in_val % 10]);
+		segment_ctrl(*in_addr + 1);
+		delay(5);
+	}
+	
 }
