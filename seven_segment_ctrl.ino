@@ -1,9 +1,5 @@
 #define SEG_DELAY 3
 
-//Test function variables
-int8_t a = 1; 
-int8_t b = 1;
-
 //PORTA values according to segment control transistors
 int8_t seg_a[3] = { 4, 16 };
 int8_t seg_b[3] = { 2, 1 };
@@ -29,10 +25,11 @@ void setup()
 void loop()
 {
 	//segment_b(15);
-	//Serial.println(numbers(0), HEX);
-	segment_on(&seg_a[0], 92);
-	segment_on(&seg_b[0], 45);
-	segment_on(&seg_c[0], 38);
+	//Serial.println(powr(2,4));
+	//delay(1000);
+	//segment_on(&seg_a[0], 92);
+	//segment_on(&seg_b[0], 45);
+	//segment_on(&seg_c[0], 38);
 	/*
 	segment_out(1);
 	for (int i = 0; i < 6; i++)
@@ -41,10 +38,12 @@ void loop()
 		a *= 2;
 		delay(3000);
 	}
-	delay(1000);
 	*/
-	//test_segments(500);
+	
+	
+	test_segments(1000);
 	//segment_b(25);
+	
 }
 
 void segment_out(uint8_t inVal)
@@ -62,20 +61,26 @@ void segment_ctrl(uint8_t inVal)
 
 void test_segments(uint16_t delay_t)
 {
-	for (int i = 1; i < 8; i++)
+	for (int i = 0; i < 7; i++)
 	{
-		segment_out(a);
-		a *= 2;
-		delay(10);
-
-		for (int j = 1; j < 8; j++)
+		segment_out(powr(2, i));
+		for (int i = 0; i < 6; i++)
 		{
-			segment_ctrl(b);
-			b *= 2;
+			segment_ctrl(powr(2, i));
 			delay(delay_t);
 		}
-		b = 1;
 	}
+}
+
+int16_t powr(int16_t inNum, int16_t inPow)
+{
+	
+	int16_t outNum = 1;
+	for (int16_t i = 0; i < inPow; i++)
+	{
+		outNum *= inNum;
+	}
+	return outNum;
 }
 
 void segment_b(uint8_t in_val)
@@ -132,3 +137,4 @@ void segment_on(int8_t* in_addr, int in_val)
 	}
 	
 }
+
